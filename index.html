@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previsões de Vazões</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+        .hover-image {
+            position: absolute;
+            display: none;
+            z-index: 100;
+            border: 2px solid #333;
+            background-color: white;
+            max-width: 200px;
+            max-height: 150px;
+        }
+        .popup {
+            width: 600px; /* Largura do popup */
+            height:430px; /* Altura do popup */
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: white;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* Esconde o conteúdo que ultrapassa */
+        }
+        .popup-header {
+            width: 100%; /* Cabeçalho ocupa toda a largura do popup */
+            height: 100px; /* Altura do cabeçalho */
+            background-color: white; /* Cor de fundo do cabeçalho */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .popup img {
+            max-width: 100%; /* Limita a largura máxima à largura do popup */
+            max-height: 100%; /* Limita a altura máxima à altura do popup */
+            object-fit: contain; /* Garante que a imagem seja redimensionada proporcionalmente */
+        }
+        .popup-header img {
+		    height:50px;
+            max-width: 100%; /* Limita o tamanho da imagem no cabeçalho */
+            max-height: 50px; /* Limita o tamanho da imagem no cabeçalho */
+            object-fit: contain; /* Garante que a imagem seja proporcional */
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <img id="hover-image" class="hover-image" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <script>
+        // Inicializar o mapa
+        const map = L.map('map').setView([-20, -43], 8); // Coordenadas centrais do mapa
+
+        // Adicionar camada de tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Pontos de interesse
+        const data = [
+            {name: "Porto Firme", lat: -20.414583, lng: -42.906250, image: "imagens/hybas_6120714080.png"},
+            {name: "Ponte Nova",  lat: -20.672917, lng: -43.093750, image: "imagens/hybas_6121252220.png"}
+        ];
+
+        // Adicionar marcadores no mapa
+        function addMarkers(data) {
+            data.forEach(location => {
+                if (location.lat && location.lng) {
+                    const lat = parseFloat(location.lat);
+                    const lng = parseFloat(location.lng);
+
+                    if (isNaN(lat) || isNaN(lng)) {
+                        console.warn(`Coordenadas inválidas para: ${location.name}`);
+                        return;
+                    }
+
+                    // Conteúdo do popup com a imagem
+                    const popupContent = `
+                        <div class="popup">
+                            <div class="popup-header">
+                                <img src="imagens/logosgb_horizontal_original_v2.png" alt="logomarca" />
+                            </div>
+                            <img src="${location.image}" alt="${location.name}" />
+                        </div>
+                    `;
+
+                    // Criar marcador e vincular popup
+                    const marker = L.marker([lat, lng]).addTo(map);
+                    marker.bindPopup(popupContent);
+                } else {
+                    console.warn("Dados insuficientes para criar marcador:", location);
+                }
+            });
+        }
+
+        addMarkers(data);
+    </script>
+</body>
+</html>
