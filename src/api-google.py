@@ -322,7 +322,7 @@ def graficos(config, google, sace):
             plt.tight_layout()
             salvarin =  f'{result}/{codigo}.png'
             plt.savefig(salvarin)
-            plt.show()   
+            # plt.show()   
 
         else:
             # Limiares
@@ -351,7 +351,7 @@ def graficos(config, google, sace):
             plt.tight_layout()
             salvarin =  f'{result}/{codigo}.png'
             plt.savefig(salvarin)
-            plt.show()
+            # plt.show()
 
 
 # ROTINA PRINCIPAL
