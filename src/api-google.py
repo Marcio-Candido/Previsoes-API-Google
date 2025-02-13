@@ -20,16 +20,16 @@ import numpy as np
 KEY = 'AIzaSyDmFWQWhI_BAly6eXFDWKCXpmyn6kH3q4E'
 region_code = "BR"
 # Arquivo de configuração dos dados
-arq_conf = r'C:\Agenda\APIs Google\inputs\config.csv'
+arq_conf = 'inputs/config.csv'
 # Arquivo com as curvas-chaves
-arq_curvas = r'C:\Agenda\APIs Google\inputs\curvas.plk'
+arq_curvas = 'inputs/curvas.plk'
 curvas = pd.read_pickle(arq_curvas)
 curvas['fim'] = [dt.datetime(2025,12,31) if fim == dt.datetime(2024,12,31) else fim for fim in curvas['fim']]
 # Carregar a imagem de marca d'água
-logo = r'C:\Agenda\APIs Google\inputs\simbolo2.png'
+logo = 'inputs/simbolo2.png'
 imagem = mpimg.imread(logo)
 # Diretorio onde as imagens vão ser gravadas
-result = 'c:\\Agenda\APIs Google\imagens'
+result = 'imagens'
 
 # DEFINIÇÕES DE FUNÇÕES
 # API-Google
@@ -320,7 +320,7 @@ def graficos(config, google, sace):
             ax.set_title(f'{cod} - {nome}', fontsize=14, fontweight="bold")
 
             plt.tight_layout()
-            salvarin =  f'{result}\\{codigo}.png'
+            salvarin =  f'{result}/{codigo}.png'
             plt.savefig(salvarin)
             plt.show()   
 
@@ -349,7 +349,7 @@ def graficos(config, google, sace):
             ax.set_title(f'{cod} - {nome}', fontsize=14, fontweight="bold")
 
             plt.tight_layout()
-            salvarin =  f'{result}\\{codigo}.png'
+            salvarin =  f'{result}/{codigo}.png'
             plt.savefig(salvarin)
             plt.show()
 
