@@ -221,6 +221,8 @@ def monitor(config):
 # Gerar gráficos
 
 def graficos(config, google, sace):  
+    # Correção do tipo do valor
+    google.valor = google.valor.astype(float)
     # Gerar graficos
     codigos = google['codigo'].unique()
     for codigo in codigos:
